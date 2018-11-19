@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="employeeNamespace">	
+
+	<resultMap type="cn.itcast.entity.Employee" id="employeeMap">
+		<id property="id" column="emps_id"/>
+		<result property="name" column="emps_name"/>
+		<result property="sex" column="emps_sex"/>
+		<result property="hiredate" column="emps_hiredate"/>
+	</resultMap>
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- sql片段对应字段名,id属性值任意 -->
+	<sql id="key">
+		<!-- 去掉最后一个, -->
+		<trim suffixOverrides=",">
+			<if test="id!=null">
+				emps_id,
+			</if>
+			<if test="name!=null">
+				emps_name,
+			</if>
+			<if test="sex!=null">
+				emps_sex,
+			</if>
+			<if test="hiredate!=null">
+				emps_hiredate,
+			</if>
+		</trim>
+	</sql>
+	
+	
+	<!-- sql片段对应?,id属性值任意 -->
+	<sql id="value">
+		<!-- 去掉最后一个, -->
+		<trim suffixOverrides=",">
+			<if test="id!=null">
+				#{id},
+			</if>
+			<if test="name!=null">
+				#{name},
+			</if>
+			<if test="sex!=null">
+				#{sex},
+			</if>
+			<if test="hiredate!=null">
+				#{hiredate},
+			</if>
+		</trim>
+	</sql>
+	
+	
+	
+	
+	
+	<!-- <include refid="key"/>和<include refid="value"/>表示引用上面定义的sql片段 -->
+	<insert id="dynaInsert" parameterType="cn.itcast.entity.Employee">
+		insert into emps(<include refid="key"/>) values(<include refid="value"/>)
+	</insert>
+	
+	<delete id="dynaDeleteArray">
+		delete from emps where emps_id in
+		<!-- foreach用于迭代数组元素
+			 open表示开始符号
+			 close表示结束符合
+			 separator表示元素间的分隔符
+			 item表示迭代的数组，属性值可以任意，但提倡与方法的数组名相同
+			 #{ids}表示数组中的每个元素值
+		 -->
+		<foreach collection="array" open="(" close=")" separator="," item="ids">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	
+	
+	
+	<delete id="dynaDeleteList">
+		delete from emps where emps_id in
+		<foreach collection="list" open="(" close=")" separator="," item="ids">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<update id="dynaUpdate" parameterType="map">
+		update emps 
+		<set>
+			<if test="pname!=null">
+				emps_name = #{pname},
+			</if>
+			<if test="psex!=null">
+				emps_sex = #{psex},			
+			</if>
+			<if test="phiredate!=null">
+				emps_hiredate = #{phiredate},			
+			</if>
+		</set>
+		where emps_id = #{pid}
+	</update>
+	
+	<select id="findAll" resultMap="employeeMap">
+		select * from emps
+	</select>
+	
+	<select id="findOne" parameterType="int" resultMap="employeeMap">
+	select * from emps	where emps_id = #{eid}
+	</select>
+	
+	<update id="updateOne" parameterType="map">
+		update emps 
+		<set>
+			<if test="pname!=null">
+				emps_name = #{pname},
+			</if>
+			<if test="psex!=null">
+				emps_sex = #{psex},			
+			</if>
+			<if test="phiredate!=null">
+				emps_hiredate = #{phiredate},			
+			</if>
+		</set>
+		where emps_id = #{pid}
+	</update>
+	
+	<select id="findAllByNameWithFy" parameterType="map" resultMap="employeeMap">
+		select emps_id,emps_name,emps_sex 
+		from emps 
+		where emps_name like #{pname}
+		limit #{pstart},#{psize}
+	</select>
+	
+	<select id="findByPageResult" parameterType="map" resultMap="employeeMap">
+		select emps_id,emps_name,emps_sex,emps_hiredate 
+		from emps 
+		<where>
+			<if test="pname!=null">
+				and emps_name like #{pname}
+			</if>
+		</where> 
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	<select id="findByLike" parameterType="map" resultMap="employeeMap">
+		select emps_id,emps_name,emps_sex,emps_hiredate 
+		from emps 
+		<where>
+			<if test="pname!=null">
+				and emps_name like #{pname}
+			</if>
+		</where>
+	</select>
+	
+</mapper>
+
+
+
+

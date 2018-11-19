@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+	
+	<!-- 加载类路径下的属性文件 -->
+	<properties resource="db.properties"/>
+
+	
+	<!-- 设置类型别名 
+	<typeAliases>
+		<typeAlias type="cn.itcast.javaee.mybatis.app04.Student" alias="student"/>
+	</typeAliases>
+	-->
+	<!--
+	<environments default="mysql_developer">
+		<environment id="mysql_developer">
+			<transactionManager type="jdbc"/>
+			<dataSource type="pooled">
+				<property name="driver" value="${mysql.driver}"/>
+				<property name="url" value="${mysql.url}"/>
+				<property name="username" value="${mysql.username}"/>
+				<property name="password" value="${mysql.password}"/>
+			</dataSource>
+		</environment>
+
+		<environment id="oracle_developer">
+			<transactionManager type="jdbc"/>
+			<dataSource type="pooled">
+				<property name="driver" value="${oracle.driver}"/>
+				<property name="url" value="${oracle.url}"/>
+				<property name="username" value="${oracle.username}"/>
+				<property name="password" value="${oracle.password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	-->
+	
+	
+	
+	
+	<!-- 加载映射文件-->
+	<mappers>
+		<mapper resource="cn/itcast/entity/EmployeeMapper.xml"/>
+		<mapper resource="cn/itcast/entity/AvShopMapper.xml"/>
+	</mappers>
+	
+	
+	
+</configuration>
